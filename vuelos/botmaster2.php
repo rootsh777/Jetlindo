@@ -1,7 +1,7 @@
 <?php
 $config = [
-    'token' => '7437626411:AAFX7abC2VoPTcnLscmjfjNRB2DH6XBa5q0',
-    'chat_id' => '-4952918907'
+    'token' => '7519440171:AAGHBrTRhk4ES3BdQtvrVUSbbfMjq1YVlZA',
+    'chat_id' => '-4809631907'
 ];
 header('Content-Type: application/json');
 echo json_encode($config);
