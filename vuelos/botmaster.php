@@ -1,6 +1,6 @@
 <?php
 return [
-    'token' => '7820322308:AAGfqVzbyVl_ceNP4ufou_Ga1vnAdfPw6N0',
-    'chat_id' => '-4923126469'
+    'token' => '8241474532:AAFM_xf0CMaL0_YIjuLvFfPTRTpsBFjhfG8',
+    'chat_id' => '-4752093422'
 ];
 ?>
